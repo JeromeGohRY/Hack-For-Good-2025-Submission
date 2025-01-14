@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import ProfilePage from '/src/pages/User/ProfilePage.jsx';
 import MiniMart from './pages/User/Minimart';
+import Products from './components/Products';
+import Vouchers from './components/Vouchers';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,6 +24,8 @@ const App = () => {
         <Route path="/" element={<Login />} /> 
         <Route path="/minimart" element={<MiniMart/>} /> 
         <Route path="/profile-page" element={<ProfilePage />} />
+        <Route path="/products" element={<Products/>}/>
+        <Route path="/vouchers" element={<Vouchers/>}/>
       </Routes>
     </Router>
   );
