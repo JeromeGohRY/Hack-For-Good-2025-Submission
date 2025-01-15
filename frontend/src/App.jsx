@@ -12,6 +12,8 @@ const Login = () => {
       <h1>Login Page</h1>
       <button onClick={() => navigate('/minimart')}>Go to Minimart</button>
       <button onClick={() => navigate('/profile-page')}>Go to Profile Page</button>
+      <button onClick={() => navigate('/products')}>Go to Products Page</button>
+      <button onClick={() => navigate('/vouchers')}>Go to Voucher Page</button>
     </div>
   );
 };
