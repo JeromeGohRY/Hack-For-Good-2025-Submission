@@ -2,16 +2,16 @@ import mongoose from 'mongoose';
 
 // Schema definition for Product
 const productSchema = new mongoose.Schema({
-  id: { 
+  name: { 
     type: String, 
     required: true, 
     unique: true 
   },
-  quantity: {
+  stock: {
     type: Number,
     required: true,
   },
-  cost: {
+  price: {
     type: String,
     required: true,
   },

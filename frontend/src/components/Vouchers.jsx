@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, message, Select } from 'antd';
+import { Table, Button, message, Select, Modal, Form, Input } from 'antd';
 
 import voucherHandler from '../api/vouchers';  
 import userHandler from '../api/users';
@@ -9,6 +9,9 @@ const Vouchers = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [assigningVoucher, setAssigningVoucher] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false); 
+  const [creatingVoucher, setCreatingVoucher] = useState(false); 
+
 
   // Fetch all users and vouchers from the backend
   const fetchData = async () => {
@@ -48,11 +51,38 @@ const Vouchers = () => {
     fetchData();
   }, []);
 
+  // Handle voucher deletion
+  const handleDeleteVoucher = async (voucherId) => {
+    try {
+      await voucherHandler.deleteVoucher(voucherId);
+      message.success('Voucher deleted successfully');
+      fetchData(); // Refresh vouchers
+    } catch (error) {
+      message.error('Failed to delete voucher');
+    }
+  };
+
+  // Handle voucher creation
+  const handleCreateVoucher = async (values) => {
+    setCreatingVoucher(true);
+    try {
+      await voucherHandler.createVoucher(values);
+      message.success('Voucher created successfully');
+      fetchData(); // Refresh vouchers
+      setIsModalVisible(false); // Close modal
+    } catch (error) {
+      message.error('Failed to create voucher');
+    }
+    setCreatingVoucher(false);
+  };
+
+
+
   const columns = [
     {
-      title: 'Voucher Code',
-      dataIndex: 'code',
-      key: 'code',
+      title: 'Voucher name',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
       title: 'Description',
@@ -63,6 +93,7 @@ const Vouchers = () => {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
+        <div style={{ display: 'flex', gap: '10px' }}>
         <Button
           type="primary"
           loading={assigningVoucher}
@@ -70,6 +101,13 @@ const Vouchers = () => {
         >
           Assign to User
         </Button>
+        <Button
+            type="danger"
+            onClick={() => handleDeleteVoucher(record.id)}
+          >
+            Delete
+          </Button>
+        </div>
       ),
     },
   ];
@@ -85,6 +123,14 @@ const Vouchers = () => {
         onChange={(value) => setSelectedUser(value)}
         options={users.map(user => ({ value: user.id, label: user.name }))}
       />
+       {/* Add Voucher Button */}
+       <Button
+        type="primary"
+        style={{ marginBottom: 20 }}
+        onClick={() => setIsModalVisible(true)}
+      >
+        Add Voucher
+      </Button>
 
       <Table
         dataSource={vouchers}
@@ -92,6 +138,43 @@ const Vouchers = () => {
         rowKey="id"
         pagination={false}
       />
+
+       {/* Modal for Adding Voucher */}
+       <Modal
+        title="Create Voucher"
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+      >
+        <Form
+          layout="vertical"
+          onFinish={handleCreateVoucher}
+        >
+          <Form.Item
+            label="Voucher Name"
+            name="name"
+            rules={[{ required: true, message: 'Please enter voucher name' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[{ required: true, message: 'Please enter voucher description' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={creatingVoucher}
+            >
+              Create
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const usersBaseUrl = 'http://localhost:3001/api/users';
+const usersBaseUrl = '/api/users';
+
+//No users yet
 
 // Get all users
 const getAllUsers = () => {

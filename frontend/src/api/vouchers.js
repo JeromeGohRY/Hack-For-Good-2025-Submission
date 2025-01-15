@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const usersBaseUrl = 'http://localhost:3001/api/users';
-const vouchersBaseUrl = 'http://localhost:3001/api/vouchers';
+const usersBaseUrl = '/api/users';
+const vouchersBaseUrl = '/api/vouchers';
 
 
 
@@ -17,7 +17,25 @@ const getAllVouchers = () => {
   return request.then(response => response.data);
 };
 
+//Create a voucher
+const createVoucher = async (newVoucher) => {
+  const response = await axios.post(vouchersBaseUrl, newVoucher);
+  return response.data;
+};
+
+//Delete a voucher
+
+const deleteVoucher = async id => {
+  // const config = {
+  //   headers: { Authorization: token },
+  // }
+  const response=await axios.delete(`${vouchersBaseUrl}/${id}`)
+  return response.data
+}
+
 export default {
   assignVoucherToUser,
   getAllVouchers,
+  createVoucher,
+  deleteVoucher,
 };

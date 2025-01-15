@@ -82,6 +82,7 @@ const Products=()=> {
     { title: "ID", dataIndex: "id", key: "id" },
     { title: "Name", dataIndex: "name", key: "name" },
     { title: "Stock", dataIndex: "stock", key: "stock" },
+    { title: "Price", dataIndex: "price", key: "price" },
     {
       title: "Actions",
       key: "actions",
@@ -119,6 +120,9 @@ const Products=()=> {
             <Input />
           </Form.Item>
           <Form.Item name="stock" label="Stock" rules={[{ required: true, type: "number", min: 0 }]}>
+            <InputNumber style={{ width: "100%" }} />
+          </Form.Item>
+          <Form.Item name="price" label="Price" rules={[{ required: true, type: "number", min: 0 }]}>
             <InputNumber style={{ width: "100%" }} />
           </Form.Item>
           <Button type="primary" htmlType="submit">
