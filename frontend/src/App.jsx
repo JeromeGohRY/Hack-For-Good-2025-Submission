@@ -5,6 +5,9 @@ import Products from './components/Products';
 import Vouchers from './components/Vouchers';
 import Login from './components/Login';
 import CreateUser from './components/CreateUser';
+import WishlistPage from './pages/User/Wishlist';
+import { CartProvider } from './context/CartContext';
+import ProductRequestForm from './pages/User/RequestPage';
 
 
 const Navigate = () => {
@@ -17,6 +20,7 @@ const Navigate = () => {
       <button onClick={() => navigate('/profile-page')}>Go to Profile Page</button>
       <button onClick={() => navigate('/products')}>Go to Products Page</button>
       <button onClick={() => navigate('/vouchers')}>Go to Voucher Page</button>
+      <button onClick={() => navigate('/login')}>Go to Login Page</button>
     </div>
   );
 };
@@ -24,7 +28,8 @@ const Navigate = () => {
 
 const App = () => {
   return (
-    <Router>
+    <CartProvider>
+      <Router>
       <Routes>
         <Route path="/" element={<Navigate />} /> 
         <Route path="/login" element={<Login/>} /> 
@@ -33,8 +38,13 @@ const App = () => {
         <Route path="/profile-page" element={<ProfilePage />} />
         <Route path="/products" element={<Products/>}/>
         <Route path="/vouchers" element={<Vouchers/>}/>
+        <Route path = "/wishlist" element = {<WishlistPage/>}/>
+        <Route path = "/request-page" element = {<ProductRequestForm/>}/>
       </Routes>
     </Router>
+
+    </CartProvider>
+    
   );
 };
 
