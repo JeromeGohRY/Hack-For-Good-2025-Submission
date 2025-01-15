@@ -1,29 +1,47 @@
 import express from "express"
+import bcrypt from "bcrypt";
+import User from '../models/user.js'
+
 const router = express.Router();
 
-// Dummy data for users and vouchers
-const users = [
-  { id: 1, name: "John Doe", email: "john@example.com", vouchers: [] },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", vouchers: [] },
-];
-
-
-// Get all users
-router.get('/', (req, res) => {
-  res.json(users);
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find({}, "-password"); // Exclude passwords for security
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching users" });
+  }
 });
 
 // Create a new user
-router.post('/', (req, res) => {
-  const { name, email } = req.body;
-  const newUser = {
-    id: users.length + 1,
-    name,
-    email,
-    vouchers: [],
-  };
-  users.push(newUser);
-  res.status(201).json(newUser);
+router.post("/", async (req, res) => {
+  const { username, password, role } = req.body;
+  try {
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, password: hashedPassword, role });
+    await newUser.save();
+    res.status(201).json({ message: "User created successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error creating user", error });
+  }
+});
+
+// Login user
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Compare passwords
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) return res.status(401).json({ message: "Invalid credentials" });
+
+    res.status(200).json({ message: "Login successful", role: user.role });
+  } catch (error) {
+    res.status(500).json({ message: "Error logging in", error });
+  }
 });
 
 
