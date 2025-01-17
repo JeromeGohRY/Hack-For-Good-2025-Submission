@@ -48,8 +48,8 @@ const Products=()=> {
   const handleExportCSV = () => {
     const csvContent =
       "data:text/csv;charset=utf-8," +
-      ["ID,Name,Stock"]
-        .concat(products.map((p) => `${p.id},${p.name},${p.stock}`))
+      ["Name,Category,Stock,Price"]
+        .concat(products.map((p) => `${p.name},${p.category},${p.stock},${p.price}`))
         .join("\n");
 
     const encodedUri = encodeURI(csvContent);
@@ -79,8 +79,8 @@ const Products=()=> {
   };
 
   const columns = [
-    { title: "ID", dataIndex: "id", key: "id" },
     { title: "Name", dataIndex: "name", key: "name" },
+    { title: "Category", dataIndex: "category", key: "category" },
     { title: "Stock", dataIndex: "stock", key: "stock" },
     { title: "Price", dataIndex: "price", key: "price" },
     {
@@ -117,6 +117,9 @@ const Products=()=> {
       >
         <Form form={form} onFinish={handleSubmit} layout="vertical">
           <Form.Item name="name" label="Product Name" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="category" label="Product Category" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item name="stock" label="Stock" rules={[{ required: true, type: "number", min: 0 }]}>

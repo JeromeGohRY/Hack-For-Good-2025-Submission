@@ -121,7 +121,7 @@ const Vouchers = () => {
         style={{ width: 200, marginBottom: 20 }}
         placeholder="Select a user"
         onChange={(value) => setSelectedUser(value)}
-        options={users.map(user => ({ value: user.id, label: user.name }))}
+        options={users.map(user => ({ value: user.id, label: user.username}))}
       />
        {/* Add Voucher Button */}
        <Button

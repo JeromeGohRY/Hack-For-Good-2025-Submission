@@ -11,6 +11,8 @@ import ProductRequestForm from './pages/User/RequestPage';
 import AssignVoucherForm from './pages/User/AssignVoucherForm';
 import ProductCatalog from './pages/User/ProductCatalog';
 import ProductRequestPage from './pages/User/ProductRequestPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import Unauthorized from './components/Unauthorized';
 
 const Navigate = () => {
   const navigate = useNavigate();
@@ -139,13 +141,15 @@ const App = () => {
           <Route path='/create-user' element={<CreateUser/>}/>
           <Route path="/minimart" element={<MiniMart/>} /> 
           <Route path="/profile-page" element={<ProfilePage />} />
-          <Route path="/products" element={<Products/>}/>
-          <Route path="/vouchers" element={<Vouchers/>}/>
+          {/* Only allow access if the user has the "admin" role */}
+          <Route path="/products" element={<ProtectedRoute element={<Products />} requiredRole="admin" />}/>
+          <Route path="/vouchers" element={<ProtectedRoute element={<Vouchers />} requiredRole="admin" />}/>
           <Route path = "/wishlist" element = {<WishlistPage/>}/>
           <Route path = "/request-page" element = {<ProductRequestForm/>}/>
           <Route path = "/assign-voucher" element = {<AssignVoucherForm/>}/>
           <Route path = "/product-catalog" element = {<ProductCatalog/>}/>
           <Route path = "/product-request" element = {<ProductRequestPage/>}/>
+          <Route path="/unauthorized" element ={<Unauthorized/>}/>
         </Routes>
       </Router>
     </CartProvider>

@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-const usersBaseUrl = '/api/users';
 const vouchersBaseUrl = '/api/vouchers';
 
 
 
 // Assign a voucher to a user
 const assignVoucherToUser = async (userId, voucherId) => {
-  const response = await axios.post(`${usersBaseUrl}/${userId}/vouchers`, { voucherId });
+  const response = await axios.post(`${vouchersBaseUrl}/${userId}/`, { voucherId });
   return response.data;
 };
 
