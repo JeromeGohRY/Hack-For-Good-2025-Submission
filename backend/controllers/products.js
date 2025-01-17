@@ -14,10 +14,11 @@ router.get('/', async (req, res) => {
 
 // Create a new product
 router.post('/', async (req, res) => {
-  const { name, stock, price } = req.body;
+  const { name, category, stock, price } = req.body;
 
   const newProduct = new Product({
     name,
+    category,
     stock,
     price,
   });
@@ -26,6 +27,7 @@ router.post('/', async (req, res) => {
     const savedProduct = await newProduct.save();
     res.status(201).json(savedProduct);
   } catch (err) {
+    console.error("Error saving product:", err); // Log the error
     res.status(400).json({ error: 'Failed to create product' });
   }
 });

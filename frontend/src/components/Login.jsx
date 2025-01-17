@@ -10,6 +10,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const response = await axios.post("/api/users/login", formData);
+      localStorage.setItem('token', response.data.token);
       message.success(response.data.message);
       console.log("submitted!");
       navigate("/");

@@ -1,5 +1,7 @@
 import express from "express"
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
+
 import User from '../models/user.js'
 
 const router = express.Router();
@@ -37,8 +39,11 @@ router.post("/login", async (req, res) => {
     // Compare passwords
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) return res.status(401).json({ message: "Invalid credentials" });
-
-    res.status(200).json({ message: "Login successful", role: user.role });
+    const token = jwt.sign({ role: user.role },  // Include role in the JWT payload
+                            process.env.JWT_SECRET_KEY,
+                            { expiresIn: '1h' }
+                          );
+      res.json({ token });
   } catch (error) {
     res.status(500).json({ message: "Error logging in", error });
   }
