@@ -16,4 +16,20 @@ const createUser = async (newUser) => {
     return response.data;
   };
 
-export default {getAllUsers, createUser}
+const getUserById = async id =>{
+    const response=await axios.get(`${usersBaseUrl}/${id}`)
+    return response.data
+}
+
+const updateUserWishlistById = async (id, newWishlistItem) => {
+  const { data: user } = await axios.get(`${usersBaseUrl}/${id}`);
+ 
+  // Merge the new wishlist item into the existing wishlist 
+  const updatedWishlist = { ...user.wishlist, ...newWishlistItem };
+  
+  // Update the entire user object with the modified wishlist
+  const updatedUser = { ...user, wishlist: updatedWishlist };
+  const response = await axios.put(`${usersBaseUrl}/wishlist/${id}`, updatedUser)
+  return response.data
+}
+export default {getAllUsers, createUser, getUserById, updateUserWishlistById}

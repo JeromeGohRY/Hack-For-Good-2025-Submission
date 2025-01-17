@@ -13,7 +13,7 @@ const Login = () => {
       localStorage.setItem('token', response.data.token);
       message.success(response.data.message);
       console.log("submitted!");
-      navigate("/");
+      navigate("/navigate");
     } catch (error) {
       if (error.response) {
         message.error(error.response.data.message || "Error logging in");

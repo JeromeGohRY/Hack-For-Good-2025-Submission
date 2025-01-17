@@ -1,16 +1,39 @@
 import React, { useState } from 'react';
-import { Input, Button, Card } from 'antd';
+import { Input, Button, Card,message } from 'antd';
+import { jwtDecode } from 'jwt-decode';
+import userHandler from '../../api/users.js'
 
 const ProductRequestForm = () => {
   const [productName, setProductName] = useState('');
-  const [voucherWorth, setVoucherWorth] = useState('');
+  const [voucherWorth, setVoucherWorth] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    console.log('Product:', productName);
-    console.log('Voucher Worth:', voucherWorth);
-    // Add submission logic to backend over here
-    setProductName('');
-    setVoucherWorth('');
+  const handleSubmit = async() => {
+    if (!productName || !voucherWorth) {
+      message.error('Please fill out all fields!');
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // Prepare the new wishlist item
+      const newWishlistItem = { [productName]: voucherWorth };
+
+      // Call the function to update the user's wishlist
+      const token = localStorage.getItem('token');
+      jwtDecode(token)
+      await userHandler.updateUserWishlistById(jwtDecode(token).id, newWishlistItem);
+
+      message.success('Product request submitted successfully!');
+      setProductName('');
+      setVoucherWorth('');
+    } catch (error) {
+      console.error('Error updating wishlist:', error);
+      message.error('Failed to submit product request. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -74,12 +97,14 @@ const ProductRequestForm = () => {
             onChange={(e) => setVoucherWorth(e.target.value)}
             placeholder="Enter voucher worth"
             style={{ borderRadius: '10px', fontSize: '16px', padding: '10px' }}
+            rules={[{ required: true, type: "number", min: 1 }]}
           />
         </div>
 
         <Button
           type="primary"
           onClick={handleSubmit}
+          loading={loading}
           style={{
             backgroundColor: '#19bdbd',
             borderColor: '#19bdbd',

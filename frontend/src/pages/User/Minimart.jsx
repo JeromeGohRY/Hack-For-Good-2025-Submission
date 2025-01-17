@@ -1,20 +1,17 @@
-import React from 'react';
+import {useState, useEffect} from 'react';
+import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import VouchersDisplay from '../../components/VoucherDisplay';
 import ProductGrid from '../../components/ProductGrid';
 import { useCart } from '../../context/CartContext';
-import ProductRequestForm from './RequestPage';
+import userHandler from '../../api/users.js'
 
 
 const Minimart = () => {
   const { updateWishlist } = useCart();
-
-  // Mock Data for User Vouchers
-  const mockVouchers = [
-    { id: 1, name: 'Tidbit Voucher', count: 5 },
-    { id: 2, name: 'Stationary Voucher', count: 2 },
-  ];
+  const [userVouchers, setUserVouchers] = useState([]);
+ 
 
   // Mock Data for Products
   const mockProducts = [
@@ -23,6 +20,39 @@ const Minimart = () => {
     { id: 3, name: 'Pilot Pen', voucherCost: 2, image: 'https://www.pilotpen.com.sg/wp-content/uploads/2019/10/Evolt-L.jpg', voucherType: 'Stationary' },
     { id: 4, name: 'Correction Tape', voucherCost: 5, image: 'https://os.popular.com.sg/image/cache/data/product/13331001-500x500.jpg', voucherType: 'Stationary' },
   ];
+
+  // Function to fetch vouchers based on the user ID
+  const fetchUserVouchers = async (userId) => {
+    try {
+      const response = await userHandler.getUserById(userId);
+      console.log(response);
+
+      // Transform the map { tidbit: 5, stationary: 3 } into an array
+      const vouchersArray = Object.entries(response.vouchers).map(([key, value], index) => ({
+        id: index + 1,
+        name: `${key.charAt(0).toUpperCase()}${key.slice(1)} Voucher`, // Capitalize the first letter
+        count: value,
+      }));
+
+      setUserVouchers(vouchersArray);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Decode token and fetch vouchers on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.id; // Extract user ID from token
+        fetchUserVouchers(userId); // Fetch vouchers for this user
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    }
+  }, []);
 
   const handleAddToWishlist = (product) => {
     updateWishlist({
@@ -39,7 +69,7 @@ const Minimart = () => {
 
       {/* Vouchers Display */}
       <div style={{ marginTop: '20px' }}>
-        <VouchersDisplay vouchers={mockVouchers} />
+        <VouchersDisplay vouchers={userVouchers} />
       </div>
 
       {/* Available Products Section */}

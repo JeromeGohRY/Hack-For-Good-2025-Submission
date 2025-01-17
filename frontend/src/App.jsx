@@ -136,8 +136,8 @@ const App = () => {
     <CartProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate />} /> 
-          <Route path="/login" element={<Login/>} /> 
+          <Route path="/" element={<Login />} /> 
+          <Route path="/navigate" element={<Navigate/>} /> 
           <Route path='/create-user' element={<CreateUser/>}/>
           <Route path="/minimart" element={<MiniMart/>} /> 
           <Route path="/profile-page" element={<ProfilePage />} />

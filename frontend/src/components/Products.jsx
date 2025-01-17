@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { Table, Button, Modal, Form, Input, InputNumber, message } from "antd";
 import productHandler from "../api/products"; 
+import userHandler from "../api/users"
 
 const Products=()=> {
   const [products, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [form] = Form.useForm();
+  const [wishlistItems, setWishlistItems] = useState([]);
 
   useEffect(() => {
     fetchProducts();
+    fetchWishlistItems();
   }, []);
 
   const fetchProducts = async () => {
@@ -18,6 +21,31 @@ const Products=()=> {
       setProducts(data);
     } catch (error) {
       message.error("Failed to fetch products.");
+      console.log(error.message);
+    }
+  };
+
+  const fetchWishlistItems = async () => {
+    try {
+      const users = await userHandler.getAllUsers();
+      const wishlistData = [];
+
+      users.forEach((user) => {
+        const { wishlist } = user;
+        if (wishlist) {
+          Object.entries(wishlist).forEach(([key, value]) => {
+            wishlistData.push({
+              username: user.username,
+              item: key,
+              price: value,
+            });
+          });
+        }
+      });
+
+      setWishlistItems(wishlistData);
+    } catch (error) {
+      message.error("Failed to fetch wishlist items.");
       console.log(error.message);
     }
   };
@@ -98,7 +126,11 @@ const Products=()=> {
       ),
     },
   ];
-
+  const wishlistColumns = [
+    { title: "Username", dataIndex: "username", key: "username" },
+    { title: "Item", dataIndex: "item", key: "item" },
+    { title: "Reccomended Price", dataIndex: "price", key: "price" },
+  ];
   return (
     <div>
       <Button type="primary" onClick={handleAddProduct} style={{ marginBottom: 16 }}>
@@ -108,7 +140,12 @@ const Products=()=> {
         Export CSV
       </Button>
       <Table columns={columns} dataSource={products} rowKey="id" />
-
+      <h2>Wishlist Items</h2>
+      <Table
+        columns={wishlistColumns}
+        dataSource={wishlistItems}
+        rowKey={(record, index) => `${record.username}-${index}`}
+      />
       <Modal
         title={editingProduct ? "Edit Product" : "Add Product"}
         open={isModalOpen}
