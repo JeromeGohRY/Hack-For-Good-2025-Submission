@@ -82,12 +82,19 @@ const Navigate = () => {
         >
           Product Catalog
         </button>
+        <button
+          style={styles.logoutButton}
+          onClick={() => navigate('/login')}
+          onMouseEnter={e => (e.target.style.backgroundColor = '#c0392b')}
+          onMouseLeave={e => (e.target.style.backgroundColor = '#e74c3c')}
+        >
+          Log Out
+        </button>
       </div>
     </div>
   );
 };
 
-// Inline styles
 const styles = {
   container: {
     display: 'flex',
@@ -129,6 +136,17 @@ const styles = {
     width: '250px',
     transition: 'background-color 0.3s ease, transform 0.3s ease',
   },
+  logoutButton: {
+    padding: '12px 30px',
+    fontSize: '18px',
+    backgroundColor: '#e74c3c',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    width: '250px',
+    transition: 'background-color 0.3s ease, transform 0.3s ease',
+  },
 };
 
 const App = () => {
@@ -136,20 +154,21 @@ const App = () => {
     <CartProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} /> 
-          <Route path="/navigate" element={<Navigate/>} /> 
-          <Route path='/create-user' element={<CreateUser/>}/>
-          <Route path="/minimart" element={<MiniMart/>} /> 
+          <Route path="/" element={<Login />} />
+          <Route path="/navigate" element={<Navigate />} />
+          <Route path="/create-user" element={<CreateUser />} />
+          <Route path="/sign-up" element={<CreateUser />} />
+          <Route path="/minimart" element={<MiniMart />} />
           <Route path="/profile-page" element={<ProfilePage />} />
-          {/* Only allow access if the user has the "admin" role */}
-          <Route path="/products" element={<ProtectedRoute element={<Products />} requiredRole="admin" />}/>
-          <Route path="/vouchers" element={<ProtectedRoute element={<Vouchers />} requiredRole="admin" />}/>
-          <Route path = "/wishlist" element = {<WishlistPage/>}/>
-          <Route path = "/request-page" element = {<ProductRequestForm/>}/>
-          <Route path = "/assign-voucher" element = {<AssignVoucherForm/>}/>
-          <Route path = "/product-catalog" element = {<ProductCatalog/>}/>
-          <Route path = "/product-request" element = {<ProductRequestPage/>}/>
-          <Route path="/unauthorized" element ={<Unauthorized/>}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/products" element={<ProtectedRoute element={<Products />} requiredRole="admin" />} />
+          <Route path="/vouchers" element={<ProtectedRoute element={<Vouchers />} requiredRole="admin" />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/request-page" element={<ProductRequestForm />} />
+          <Route path="/assign-voucher" element={<AssignVoucherForm />} />
+          <Route path="/product-catalog" element={<ProductCatalog />} />
+          <Route path="/product-request" element={<ProductRequestPage />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
         </Routes>
       </Router>
     </CartProvider>

@@ -91,7 +91,7 @@ const Login = () => {
 
         {/* Signup Link */}
         <div style={{ textAlign: "right", marginBottom: "20px" }}>
-          <a href="/signup" style={{ color: "#1890ff", fontSize: "14px" }}>
+          <a href="/sign-up" style={{ color: "#1890ff", fontSize: "14px" }}>
             Sign up
           </a>
         </div>
