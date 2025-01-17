@@ -18,10 +18,10 @@ const Minimart = () => {
 
   // Mock Data for Products
   const mockProducts = [
-    { id: 1, name: 'Twisties', voucherCost: 3, image: '/twisties.png', voucherType: 'Tidbit' },
-    { id: 2, name: 'Cup Noodles', voucherCost: 4, image: '/cupnoodles.png', voucherType: 'Tidbit' },
-    { id: 3, name: 'Pilot Pen', voucherCost: 2, image: '/pen.png', voucherType: 'Stationary' },
-    { id: 4, name: 'Correction Tape', voucherCost: 5, image: '/correctiontape.png', voucherType: 'Stationary' },
+    { id: 1, name: 'Twisties', voucherCost: 3, image: 'https://m.media-amazon.com/images/I/81KfG3VPY0L.jpg', voucherType: 'Tidbit' },
+    { id: 2, name: 'Cup Noodles', voucherCost: 4, image: 'https://m.media-amazon.com/images/I/91mA3o5aXzL.jpg', voucherType: 'Tidbit' },
+    { id: 3, name: 'Pilot Pen', voucherCost: 2, image: 'https://www.pilotpen.com.sg/wp-content/uploads/2019/10/Evolt-L.jpg', voucherType: 'Stationary' },
+    { id: 4, name: 'Correction Tape', voucherCost: 5, image: 'https://os.popular.com.sg/image/cache/data/product/13331001-500x500.jpg', voucherType: 'Stationary' },
   ];
 
   const handleAddToWishlist = (product) => {
