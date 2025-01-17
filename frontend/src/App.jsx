@@ -58,30 +58,30 @@ const Navigate = () => {
         >
           Go to Voucher Page
         </button>
-        <button
+        {/* <button
           style={styles.button}
           onClick={() => navigate('/login')}
           onMouseEnter={e => (e.target.style.backgroundColor = '#3498db')}
           onMouseLeave={e => (e.target.style.backgroundColor = '#2980b9')}
         >
           Go to Login Page
-        </button>
-        <button
+        </button> */}
+        {/* <button
           style={styles.button}
           onClick={() => navigate('/assign-voucher')}
           onMouseEnter={e => (e.target.style.backgroundColor = '#3498db')}
           onMouseLeave={e => (e.target.style.backgroundColor = '#2980b9')}
         >
           Assign Vouchers
-        </button>
-        <button
+        </button> */}
+        {/* <button
           style={styles.button}
           onClick={() => navigate('/product-catalog')}
           onMouseEnter={e => (e.target.style.backgroundColor = '#3498db')}
           onMouseLeave={e => (e.target.style.backgroundColor = '#2980b9')}
         >
           Product Catalog
-        </button>
+        </button> */}
         <button
           style={styles.logoutButton}
           onClick={() => navigate('/login')}
