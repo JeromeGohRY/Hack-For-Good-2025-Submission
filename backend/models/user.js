@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     of: Number, // You can store the voucher count here, like {Tibit: 3, stationary: 2}
     default: {},
   },
-  products: {
+  wishlist: {
     type: Map,
     of: Number, // A map of {product name: quantity}
     default: {},
