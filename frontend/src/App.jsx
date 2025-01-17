@@ -9,6 +9,8 @@ import WishlistPage from './pages/User/Wishlist';
 import { CartProvider } from './context/CartContext';
 import ProductRequestForm from './pages/User/RequestPage';
 import AssignVoucherForm from './pages/User/AssignVoucherForm';
+import ProductCatalog from './pages/User/ProductCatalog';
+import ProductRequestPage from './pages/User/ProductRequestPage';
 
 const Navigate = () => {
   const navigate = useNavigate();
@@ -69,6 +71,14 @@ const Navigate = () => {
           onMouseLeave={e => (e.target.style.backgroundColor = '#2980b9')}
         >
           Assign Vouchers
+        </button>
+        <button
+          style={styles.button}
+          onClick={() => navigate('/product-catalog')}
+          onMouseEnter={e => (e.target.style.backgroundColor = '#3498db')}
+          onMouseLeave={e => (e.target.style.backgroundColor = '#2980b9')}
+        >
+          Product Catalog
         </button>
       </div>
     </div>
@@ -134,6 +144,8 @@ const App = () => {
           <Route path = "/wishlist" element = {<WishlistPage/>}/>
           <Route path = "/request-page" element = {<ProductRequestForm/>}/>
           <Route path = "/assign-voucher" element = {<AssignVoucherForm/>}/>
+          <Route path = "/product-catalog" element = {<ProductCatalog/>}/>
+          <Route path = "/product-request" element = {<ProductRequestPage/>}/>
         </Routes>
       </Router>
     </CartProvider>
